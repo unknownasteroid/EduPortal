@@ -1,0 +1,34 @@
+{% extends "base/layout.html" %}
+
+
+
+{% block content %}
+<div class="row justify-content-center mt-5 auth-form-container">
+    <div class="col-md-6 col-lg-4">
+        <div class="card shadow">
+            <div class="card-body p-4">
+                {% block form_content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% if form_data %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            {% for field in ['login', 'email', 'full_name', 'school', 'birth_date'] %}
+                if("{{ form_data.get(field, '') }}") {
+                    document.getElementById('{{ field }}').value = "{{ form_data.get(field, '') }}";
+                }
+            {% endfor %}
+
+            const accountType = "{{ form_data.get('account_type', '') }}";
+            if(accountType) {
+                document.getElementById('account_type').value = accountType;
+            }
+        });
+    </script>
+{% endif %}
+{% endblock %}

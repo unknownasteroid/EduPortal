@@ -1,0 +1,56 @@
+{
+  "messages": [
+    {
+      "id": "762555_Hw63AZ",
+      "user_id": 5,
+      "author": "bp-2024-silnitsky",
+      "text": "52",
+      "timestamp": "2025-02-05T16:35:55.038413",
+      "likes": 1,
+      "dislikes": 0,
+      "liked_by": [
+        "5"
+      ],
+      "disliked_by": []
+    },
+    {
+      "id": "847219_K6rx5V",
+      "user_id": 4,
+      "author": "ghsk",
+      "text": "u2uijkl",
+      "timestamp": "2025-02-06T16:06:59.018727",
+      "likes": 1,
+      "dislikes": 0,
+      "liked_by": [
+        "9"
+      ],
+      "disliked_by": []
+    },
+    {
+      "id": "854324_v3nC3C",
+      "user_id": 4,
+      "author": "ghskE^tyu3h3j",
+      "text": "ut2yuh",
+      "timestamp": "2025-02-06T18:05:24.689747",
+      "likes": 0,
+      "dislikes": 1,
+      "liked_by": [],
+      "disliked_by": [
+        "9"
+      ]
+    },
+    {
+      "id": "854762_1eOMyx",
+      "user_id": 9,
+      "author": "ghsk",
+      "text": "kmfkvd ",
+      "timestamp": "2025-02-06T18:12:42.114723",
+      "likes": 0,
+      "dislikes": 1,
+      "liked_by": [],
+      "disliked_by": [
+        "9"
+      ]
+    }
+  ]
+}

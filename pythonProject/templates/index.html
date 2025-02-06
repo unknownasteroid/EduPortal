@@ -1,0 +1,55 @@
+{% extends "base/layout.html" %}
+
+{% block css %}
+<link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+
+<section class="hero-section text-center">
+    <div class="container">
+        <h1 class="display-4 mb-4">Добро пожаловать на EduPortal{% if current_user.is_authenticated %}, {{ current_user.full_name }} {% endif %}</h1>
+        <p class="lead mb-4">Персонализированная платформа для подготовки к экзаменам</p>
+        {% if not current_user.is_authenticated %}
+            <a href="/register" class="btn btn-custom">Начать обучение</a>
+        {% endif %}
+    </div>
+</section>
+
+
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Наши преимущества</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card feature-card h-100">
+                    <div class="card-body text-center">
+                        <h3 class="card-title">📚 Структурированные курсы</h3>
+                        <p class="card-text">Лекции, видеоуроки и тесты в одном месте</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card feature-card h-100">
+                    <div class="card-body text-center">
+                        <h3 class="card-title">📈 Анализ прогресса</h3>
+                        <p class="card-text">Подробная статистика успеваемости</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card feature-card h-100">
+                    <div class="card-body text-center">
+                        <h3 class="card-title">🎮 Геймификация</h3>
+                        <p class="card-text">Мотивирующая система достижений</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}
