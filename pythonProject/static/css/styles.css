@@ -293,3 +293,34 @@ footer {
     border-color: #f5c6cb;
     color: #721c24;
 }
+
+/* Стили для кнопок показа ответа/объяснения */
+.btn-show-answer,
+.btn-show-explanation {
+    background: none;
+    border: none;
+    color: #0d6efd;
+    padding: 0;
+    cursor: pointer;
+    text-decoration: underline dotted;
+    transition: color 0.2s;
+}
+
+.btn-show-answer:hover,
+.btn-show-explanation:hover {
+    color: #0a58ca;
+    text-decoration: underline;
+}
+
+.correct-answer {
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+/* Стиль для блока с объяснением */
+.explanation .card-body {
+    background-color: #f8f9fa;
+    border-radius: 5px;
+}
