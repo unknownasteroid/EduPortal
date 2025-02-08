@@ -1,0 +1,39 @@
+{% extends "base/layout.html" %}
+{% block title %}Редактировать материал{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Редактировать материал</h1>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        
+        <!-- Поле "Название" -->
+        <div class="mb-3">
+            <label for="title" class="form-label">Название материала</label>
+            <input type="text" class="form-control" id="title" name="title" value="{{ material.title }}" required>
+        </div>
+
+        <!-- Поле "Содержание" -->
+        <div class="mb-3">
+            <label for="content" class="form-label">Содержание</label>
+            <textarea class="form-control" id="content" name="content" rows="5" required>{{ material.content }}</textarea>
+        </div>
+
+        <!-- Поле "Изображение" -->
+        <div class="mb-3">
+            <label for="image" class="form-label">Изображение (опционально)</label>
+            <input type="file" class="form-control" id="image" name="image">
+            {% if material.image %}
+                <div class="mt-2">
+                    <img src="{{ url_for('static', filename='uploads/' + material.image) }}" class="img-fluid" alt="Текущее изображение">
+                    <small class="text-muted">Текущее изображение</small>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Кнопки -->
+        <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+        <a href="{{ url_for('learn') }}" class="btn btn-secondary">Отмена</a>
+    </form>
+</div>
+{% endblock %}

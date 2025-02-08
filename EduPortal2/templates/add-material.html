@@ -1,0 +1,33 @@
+{% extends "base/layout.html" %}
+{% block title %}Добавить материал{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Добавить материал</h1>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+
+        <!-- Поле "Название" -->
+        <div class="mb-3">
+            <label for="title" class="form-label">Название материала</label>
+            <input type="text" class="form-control" id="title" name="title" required>
+        </div>
+
+        <!-- Поле "Содержание" -->
+        <div class="mb-3">
+            <label for="content" class="form-label">Содержание</label>
+            <textarea class="form-control" id="content" name="content" rows="5" required></textarea>
+        </div>
+
+        <!-- Поле "Изображение" -->
+        <div class="mb-3">
+            <label for="image" class="form-label">Изображение (опционально)</label>
+            <input type="file" class="form-control" id="image" name="image">
+        </div>
+
+        <!-- Кнопки -->
+        <button type="submit" class="btn btn-primary">Добавить</button>
+        <a href="{{ url_for('index') }}" class="btn btn-secondary">Назад</a>
+    </form>
+</div>
+{% endblock %}

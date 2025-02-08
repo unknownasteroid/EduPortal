@@ -1,0 +1,27 @@
+{% extends "base/layout.html" %}
+{% block title %}Присоединиться к группе{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Присоединение к группе</h1>
+
+    <!-- Отображение flash-сообщений -->
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ 'success' if category == 'success' else 'danger' if category == 'error' else 'warning' }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <div class="mb-3">
+            <label for="token" class="form-label">Токен группы</label>
+            <input type="text" class="form-control" id="token" name="token" required>
+            <div class="form-text">Получите токен у вашего преподавателя</div>
+        </div>
+        <button type="submit" class="btn btn-primary">Присоединиться</button>
+    </form>
+</div>
+{% endblock %}

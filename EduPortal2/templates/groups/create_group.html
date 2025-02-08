@@ -1,0 +1,28 @@
+{% extends "base/layout.html" %}
+{% block title %}Создание группы{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Создание новой группы</h1>
+    <form method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <div class="mb-3">
+            <label for="group_name" class="form-label">Название группы</label>
+            <input type="text" class="form-control" id="group_name" name="group_name" required>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Описание группы</label>
+            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Создать группу</button>
+    </form>
+
+    {% if token %}
+    <div class="alert alert-success mt-4">
+        <h4>Группа успешно создана!</h4>
+        <p>Токен для присоединения: <strong>{{ token }}</strong></p>
+        <p>Поделитесь этим токеном с учениками для вступления в группу</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

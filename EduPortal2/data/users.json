@@ -1,0 +1,15 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "login": "ghsk",
+      "email": "g@g.g",
+      "password_hash": "scrypt:32768:8:1$Q7gRDfOEIgDJBqhH$a6ef6ef5a468054f5bb7b4e0d9f5231a0cdf14d681a71413ef25d024b4183083cc02f70e9e72678609dc2306ee22da690cedff91c94a0449f983d70c5a67a0cf",
+      "full_name": "1",
+      "school": "1",
+      "birth_date": "0001-11-11",
+      "account_type": "admin",
+      "created_at": "2025-02-08T16:28:37.801375"
+    }
+  ]
+}

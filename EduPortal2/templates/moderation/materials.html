@@ -1,0 +1,35 @@
+{% extends "base/layout.html" %}
+{% block title %}Модерация материалов{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Модерация обучающих материалов</h1>
+    <p class="lead">Здесь отображаются все непроверенные материалы.</p>
+
+    {% if materials %}
+        <div class="list-group">
+            {% for material in materials %}
+                <div class="list-group-item">
+                    <h5>{{ material.title }}</h5>
+                    <p>{{ material.content }}</p>
+                    {% if material.image %}
+                        <img src="{{ url_for('static', filename='uploads/' + material.image) }}" class="img-fluid mb-3" alt="Изображение материала">
+                    {% endif %}
+                    <div class="d-flex gap-2">
+                        <form action="{{ url_for('approve_material', material_id=material.id) }}" method="POST">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <button type="submit" class="btn btn-success">Одобрить</button>
+                        </form>
+                        <form action="{{ url_for('reject_material', material_id=material.id) }}" method="POST">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <button type="submit" class="btn btn-danger">Запретить</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">Нет материалов для модерации.</div>
+    {% endif %}
+</div>
+{% endblock %}

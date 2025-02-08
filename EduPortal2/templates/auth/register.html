@@ -1,0 +1,95 @@
+{% extends "auth/form_base.html" %}
+
+{% block title %}Регистрация{% endblock %}
+
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6 col-lg-4">
+        <div class="card shadow">
+            <div class="card-body p-4">
+                <h2 class="text-center mb-4">{{ self.title() }}</h2>
+                {% if error %}
+                <div class="alert alert-danger">{{ error }}</div>
+                {% endif %}
+                <form method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    <div class="mb-3">
+                        <label for="login" class="form-label">Логин</label>
+                        <input type="text" class="form-control" id="login" name="login" required
+                               value="{{ request.form.login if request.form }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required
+                               value="{{ request.form.email if request.form }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="full_name" class="form-label">Полное имя</label>
+                        <input type="text" class="form-control" id="full_name" name="full_name" required
+                               value="{{ request.form.full_name if request.form }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Пароль</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="school" class="form-label">Школа</label>
+                        <input type="text" class="form-control" id="school" name="school"
+                               value="{{ request.form.school if request.form }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="birth_date" class="form-label">Дата рождения</label>
+                        <input type="date" class="form-control" id="birth_date" name="birth_date" required
+                               value="{{ request.form.birth_date if request.form }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="account_type" class="form-label">Тип учетной записи</label>
+                        <select class="form-select" id="account_type" name="account_type" required>
+                            {% if request.form.get('account_type') == 'student' %}
+                                <option value="student" selected>Ученик</option>
+                            {% else %}
+                                <option value="student">Ученик</option>
+                            {% endif %}
+
+                            {% if request.form.get('account_type') == 'teacher' %}
+                                <option value="teacher" selected>Учитель</option>
+                            {% else %}
+                                <option value="teacher">Учитель</option>
+                            {% endif %}
+
+                            {% if request.form.get('account_type') == 'admin' %}
+                                <option value="admin" selected>Администратор</option>
+                            {% else %}
+                                <option value="admin">Администратор</option>
+                            {% endif %}
+                        </select>
+                    </div>
+                    <div id="adminPasswordGroup" class="mb-3" style="display: {% if request.form.get('account_type') == 'admin' %}block{% else %}none{% endif %};">
+                        <label for="admin_password" class="form-label">Админ-пароль</label>
+                        <input type="password" class="form-control" id="admin_password" name="admin_password"
+                               value="{{ request.form.admin_password if request.form }}">
+                    </div>
+
+                    <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const accountType = document.getElementById('account_type');
+                        const adminGroup = document.getElementById('adminPasswordGroup');
+
+                        adminGroup.style.display = accountType.value === 'admin' ? 'block' : 'none';
+
+                        accountType.addEventListener('change', function() {
+                            adminGroup.style.display = this.value === 'admin' ? 'block' : 'none';
+                        });
+                    });
+                    </script>
+                    <button type="submit" class="btn btn-primary w-100">
+                        {% block submit_text %}Зарегистрироваться{% endblock %}
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
