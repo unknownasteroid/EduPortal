@@ -269,20 +269,21 @@ def save_solved_task(user_id, task_id, is_correct):
     save_tasks(tasks)
 
 
-
 def load_groups():
     data_path = os.path.join(current_app.config['DATA_FOLDER'], 'groups.json')
     try:
-        # Создаем файл, если он не существует
         if not os.path.exists(data_path):
             with open(data_path, 'w', encoding='utf-8') as f:
                 json.dump({'groups': []}, f)
 
         with open(data_path, 'r', encoding='utf-8') as f:
             data = json.load(f)
-            # Добавляем проверку на корректность структуры данных
             if 'groups' not in data:
                 data['groups'] = []
+            # Инициализируем поле materials, если его нет
+            for group in data['groups']:
+                if 'materials' not in group:
+                    group['materials'] = []
             return data['groups']
     except (FileNotFoundError, json.JSONDecodeError) as e:
         print(f"Ошибка загрузки групп: {str(e)}")

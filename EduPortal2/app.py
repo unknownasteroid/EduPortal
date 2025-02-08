@@ -950,5 +950,81 @@ def remove_member(token, user_id):
     return redirect(url_for('group_detail', token=token))
 
 
+@app.route('/groups/<token>/add-material', methods=['POST'])
+@login_required
+@role_required(['teacher', 'admin'])
+def add_material_to_group(token):
+    groups = load_groups()
+    group = next((g for g in groups if g['token'] == token), None)
+
+    if not group:
+        flash('Группа не найдена', 'error')
+        return redirect(url_for('my_groups'))
+
+    # Проверяем права на добавление материалов
+    if current_user.id != group['created_by'] and current_user.account_type != 'admin':
+        flash('У вас нет прав на добавление материалов в эту группу', 'error')
+        return redirect(url_for('group_detail', token=token))
+
+    # Получаем данные из формы
+    material_type = request.form.get('material_type')
+    material_id = request.form.get('material_id')
+
+    # Проверяем существование материала
+    if material_type == 'course':
+        # Логика проверки курса
+        pass
+    elif material_type == 'material':
+        materials = load_materials()
+        material = next((m for m in materials if m['id'] == material_id), None)
+        if not material:
+            flash('Материал с указанным ID не найден', 'error')
+            return redirect(url_for('group_detail', token=token))
+    elif material_type == 'task':
+        # Логика проверки задания
+        pass
+    else:
+        flash('Неверный тип материала', 'error')
+        return redirect(url_for('group_detail', token=token))
+
+    # Добавляем материал в группу
+    if 'materials' not in group:
+        group['materials'] = []
+
+    group['materials'].append({
+        'type': material_type,
+        'id': material_id,
+        'added_by': current_user.id,
+        'added_at': datetime.now().isoformat()
+    })
+
+    save_groups(groups)
+    flash('Материал успешно добавлен в группу', 'success')
+    return redirect(url_for('group_detail', token=token))
+
+
+@app.route('/groups/<token>/remove-material/<material_id>', methods=['POST'])
+@login_required
+@role_required(['teacher', 'admin'])
+def remove_material_from_group(token, material_id):
+    groups = load_groups()
+    group = next((g for g in groups if g['token'] == token), None)
+
+    if not group:
+        flash('Группа не найдена', 'error')
+        return redirect(url_for('my_groups'))
+
+    # Проверяем права на удаление
+    if current_user.id != group['created_by'] and current_user.account_type != 'admin':
+        flash('У вас нет прав на удаление материалов из этой группы', 'error')
+        return redirect(url_for('group_detail', token=token))
+
+    # Удаляем материал
+    group['materials'] = [m for m in group['materials'] if m['id'] != material_id]
+    save_groups(groups)
+
+    flash('Материал успешно удален из группы', 'success')
+    return redirect(url_for('group_detail', token=token))
+
 if __name__ == '__main__':
     app.run(port=8080, host="127.0.0.1")
