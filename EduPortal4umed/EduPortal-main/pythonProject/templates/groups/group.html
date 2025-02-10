@@ -1,0 +1,109 @@
+{% extends "base/layout.html" %}
+{% block title %}{{ group.name }}{% endblock %}
+
+{% block js %}
+<script src="{{ url_for('static', filename='js/groups.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h1 class="card-title">{{ group.name }}</h1>
+                    <p class="card-text">{{ group.description }}</p>
+
+                    <!-- Блок с токеном для создателя -->
+                    {% if current_user.id == group.created_by or current_user.account_type == 'admin' %}
+                    <div class="alert alert-info mt-3">
+                        <h5>Токен группы:</h5>
+                        <div class="input-group">
+                            <input type="text" class="form-control"
+                                   value="{{ group.token }}"
+                                   id="groupToken"
+                                   readonly>
+                            <button class="btn btn-outline-secondary"
+                                    type="button"
+                                    onclick="copyToken()">
+                                Копировать
+                            </button>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <div class="mt-4">
+                        <h5>Информация о группе:</h5>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <strong>Создатель:</strong> {{ group.creator.login }}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Дата создания:</strong> {{ group.created_at|format_date }}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Участников:</strong> {{ group.members|length }}
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Список участников -->
+                    <div class="mt-4">
+                        <h5>Участники группы:</h5>
+                        <div class="list-group">
+                            {% for member_id in group.members %}
+                                {% set user = get_user_by_id(member_id) %}
+                                <div class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        {{ user.login }}
+                                        {% if member_id == group.created_by %}
+                                            <span class="badge bg-primary">Создатель</span>
+                                        {% endif %}
+                                    </div>
+                                    {% if (current_user.id == group.created_by or current_user.account_type == 'admin')
+                                        and member_id != current_user.id %}
+                                    <form method="POST"
+                                          action="{{ url_for('remove_member', token=group.token, user_id=member_id) }}">
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                        <button type="submit" class="btn btn-danger btn-sm">
+                                            Удалить
+                                        </button>
+                                    </form>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <a href="{{ url_for('my_groups') }}" class="btn btn-secondary">
+                            ← Вернуться к списку групп
+                        </a>
+                    </div>
+
+                    {% if current_user.id == group.created_by or current_user.account_type == 'admin' %}
+                    <div class="mt-3">
+                        <form action="{{ url_for('delete_group', token=group.token) }}" method="POST"
+                              onsubmit="return confirm('Вы уверены, что хотите удалить группу? Это действие нельзя отменить.');">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <button type="submit" class="btn btn-danger">
+                                Удалить группу
+                            </button>
+                        </form>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function copyToken() {
+    const tokenField = document.getElementById('groupToken');
+    tokenField.select();
+    document.execCommand('copy');
+    alert('Токен скопирован в буфер обмена');
+}
+</script>
+{% endblock %}

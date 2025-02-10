@@ -1,0 +1,57 @@
+{% extends "base/layout.html" %}
+{% block title %}Редактировать задание{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Редактировать задание №{{ task.task_number }}</h1>
+    
+    <form method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        
+        <div class="mb-3">
+            <label for="task_number" class="form-label">Номер задания</label>
+            <input type="number" class="form-control" id="task_number" name="task_number"
+                   min="1" max="27" required value="{{ task.task_number }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="question" class="form-label">Условие задания</label>
+            <textarea class="form-control" id="question" name="question"
+                     rows="3" required>{{ task.question }}</textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="source" class="form-label">Источник</label>
+            <input type="text" class="form-control" id="source" name="source" value="{{ task.source }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="answer" class="form-label">Правильный ответ</label>
+            <input type="text" class="form-control" id="answer" name="answer" required value="{{ task.answer }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="explanation" class="form-label">Разбор задания</label>
+            <textarea class="form-control" id="explanation" name="explanation"
+                     rows="4">{{ task.explanation }}</textarea>
+        </div>
+
+        <!-- После поля "Разбор задания" добавим новое поле -->
+        <div class="mb-3">
+            <label for="difficulty" class="form-label">Сложность</label>
+            <select class="form-select" id="difficulty" name="difficulty" required>
+                <option value="Проще ЕГЭ" {% if task.difficulty == "Проще ЕГЭ" %}selected{% endif %}>Проще ЕГЭ</option>
+                <option value="Просто" {% if task.difficulty == "Просто" %}selected{% endif %}>Просто</option>
+                <option value="Средне" {% if task.difficulty == "Средне" %}selected{% endif %}>Средне</option>
+                <option value="Сложно" {% if task.difficulty == "Сложно" %}selected{% endif %}>Сложно</option>
+                <option value="Сложнее ЕГЭ" {% if task.difficulty == "Сложнее ЕГЭ" %}selected{% endif %}>Сложнее ЕГЭ</option>
+            </select>
+        </div>
+        
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+            <a href="{{ url_for('tasks') }}" class="btn btn-secondary">Отмена</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

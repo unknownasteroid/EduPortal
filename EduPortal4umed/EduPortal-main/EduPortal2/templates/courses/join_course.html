@@ -1,0 +1,26 @@
+<!-- templates/courses/join_course.html -->
+{% extends "base/layout.html" %}
+{% block title %}Найти курс{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Найти курс по токену</h1>
+    <form method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <div class="mb-3">
+            <label for="token" class="form-label">Токен курса</label>
+            <input type="text" class="form-control" id="token" name="token" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Найти</button>
+    </form>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} mt-3">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends "base/layout.html" %}
+
+{% block js %}
+<script>
+    const CURRENT_USER_ID = "{{ current_user_id }}";
+    const CSRF_TOKEN = "{{ csrf_token }}";
+    console.log('Current user ID:', CURRENT_USER_ID);
+    console.log(CSRF_TOKEN);
+</script>
+<script>
+function updateSort() {
+    const sortSelect = document.getElementById('sortSelect');
+    const sortBy = sortSelect.value;
+    const url = new URL(window.location);
+    url.searchParams.set('sort', sortBy);
+    window.location.href = url.toString();
+}
+</script>
+<script src="{{ url_for('static', filename='js/forum.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <h1>Форум</h1>
+
+            <!-- Форма нового сообщения -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <form action="{{ url_for('forum') }}" method="POST">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}"/>
+                        <textarea class="form-control mb-3" name="text" rows="3" required></textarea>
+                        <button type="submit" class="btn btn-primary">Отправить</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Сортировка -->
+            <div class="mb-3">
+                <label for="sortSelect">Сортировка:</label>
+                <select class="form-select" id="sortSelect" onchange="updateSort()">
+                    {% if sort_by == 'recent' %}
+                    <option value="recent" selected>Сначала новые</option>
+                    {% else %}
+                    <option value="recent">Сначала новые</option>
+                    {% endif %}
+
+                    {% if sort_by == 'popular' %}
+                    <option value="popular" selected>По популярности</option>
+                    {% else %}
+                    <option value="popular">По популярности</option>
+                    {% endif %}
+                </select>
+            </div>
+
+            <!-- Список сообщений -->
+            <div id="messagesList">
+                {% for message in messages %}
+                <div class="card mb-3" data-is-admin="{{ current_user.account_type == 'admin' }}" data-user-id="{{ message.user_id }}" data-message-id="{{ message.id }}">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+
+                            <h5 class="card-title">{{ message.author }}</h5>
+                            <div>
+                                {% if current_user.account_type == 'admin' or current_user_id == message.user_id %}
+                                <button class="btn btn-sm btn-danger delete-btn" data-id="{{ message.id }}" title="Удалить сообщение">
+                                    Удалить
+                                </button>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <p class="card-text">{{ message.text }}</p>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-sm btn-outline-success like-btn" data-id="{{ message.id }}">
+                                👍 <span class="count">{{ message.likes }}</span>
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger dislike-btn" data-id="{{ message.id }}">
+                                👎 <span class="count">{{ message.dislikes }}</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function updateSort() {
+        const sortSelect = document.getElementById('sortSelect');
+        const sortBy = sortSelect.value;
+        window.location.href = `/forum?sort=${sortBy}`;
+    }
+</script>
+
+{% endblock %}

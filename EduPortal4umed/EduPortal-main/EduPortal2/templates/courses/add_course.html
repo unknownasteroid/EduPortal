@@ -1,0 +1,29 @@
+{% extends "base/layout.html" %}
+{% block title %}Добавить курс{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Добавить курс</h1>
+    <form method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <div class="mb-3">
+            <label for="title" class="form-label">Название курса</label>
+            <input type="text" class="form-control" id="title" name="title" required>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Описание курса</label>
+            <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Создать курс</button>
+        <div style="margin: 1rem 0 0 0;">
+            {% if messages %}
+                {% for category, message in messages %}
+                     <div class="alert alert-{{ 'success' if category == 'success' else 'danger' if category == 'error' else 'warning' }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </form>
+</div>
+{% endblock %}

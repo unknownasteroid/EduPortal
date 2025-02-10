@@ -1,0 +1,28 @@
+{% extends "base/layout.html" %}
+{% block title %}{{ course.title }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>{{ course.title }}</h1>
+    <p>{{ course.description }}</p>
+    <small class="text-muted">
+        Добавлено: {{ course.created_at | format_date }} | Автор: {{ course.author }}
+    </small>
+
+    <div class="mt-4">
+        <h3>Материалы курса</h3>
+        {% if course.materials %}
+            <div class="list-group">
+                {% for material in course.materials %}
+                    <div class="list-group-item">
+                        <h5>{{ material.title }}</h5>
+                        <p>{{ material.content }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info">Пока нет материалов в этом курсе.</div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

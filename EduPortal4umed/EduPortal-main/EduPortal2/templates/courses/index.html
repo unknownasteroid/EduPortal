@@ -1,0 +1,33 @@
+{% extends "base/layout.html" %}
+{% block title %}Курсы{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Курсы</h1>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <a href="{{ url_for('add_course') }}" class="btn btn-primary">+ Добавить курс</a>
+        <a href="{{ url_for('join_course') }}" class="btn btn-outline-secondary">Найти курс по токену</a>
+    </div>
+
+    {% if courses %}
+        <div class="list-group">
+            {% for course in courses %}
+                <div class="list-group-item">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5>{{ course.title }}</h5>
+                            <p class="mb-0">{{ course.description }}</p>
+                            <small class="text-muted">
+                                Добавлено: {{ course.created_at | format_date }} | Автор: {{ course.author }}
+                            </small>
+                        </div>
+                        <a href="{{ url_for('course_detail', course_id=course.id) }}" class="btn btn-sm btn-outline-primary">Подробнее</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">Пока нет доступных курсов.</div>
+    {% endif %}
+</div>
+{% endblock %}

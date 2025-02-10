@@ -1,0 +1,104 @@
+{
+  "courses": [
+    {
+      "id": "200472_qDnBJk",
+      "author": "weagret122111",
+      "title": "123",
+      "description": "123",
+      "author_id": 2,
+      "created_at": "2025-02-10T18:14:32.986565",
+      "token": "200472_bE09iR",
+      "materials": []
+    },
+    {
+      "id": "201085_ayCcRS",
+      "author": "weagret122111",
+      "title": "123",
+      "description": "123",
+      "author_id": 2,
+      "created_at": "2025-02-10T18:24:45.889790",
+      "token": "201085_heJsl0",
+      "materials": []
+    },
+    {
+      "id": "201707_78fBui",
+      "author": "weagret122111",
+      "title": "1221",
+      "description": "1232342",
+      "author_id": 2,
+      "created_at": "2025-02-10T18:35:07.649536",
+      "token": "201707_tMf54a",
+      "materials": []
+    },
+    {
+      "id": "202284_NTde2E",
+      "author": "weagret122111",
+      "title": "GAVNO",
+      "description": "123",
+      "author_id": 2,
+      "created_at": "2025-02-10T18:44:44.792592",
+      "token": "202284_urEBeh",
+      "materials": []
+    },
+    {
+      "id": "202763_PCFO4Y",
+      "author": "weagret122111",
+      "title": "123",
+      "description": "ацу",
+      "author_id": 2,
+      "created_at": "2025-02-10T18:52:43.936164",
+      "token": "202763_GTGciY",
+      "materials": []
+    },
+    {
+      "id": "202904_JEahwh",
+      "author": "weagret122111",
+      "title": "324",
+      "description": "235",
+      "author_id": 2,
+      "created_at": "2025-02-10T18:55:04.624831",
+      "token": "202904_SFzEp1",
+      "materials": []
+    },
+    {
+      "id": "202935_zP95TB",
+      "author": "weagret122111",
+      "title": "ека1енув1каа",
+      "description": "кецпныошырро",
+      "author_id": 2,
+      "created_at": "2025-02-10T18:55:35.287180",
+      "token": "202935_Mh24CZ",
+      "materials": []
+    },
+    {
+      "id": "203011_sfFHWM",
+      "author": "weagret122111",
+      "title": "ека1енув1каа",
+      "description": "кецпныошырро",
+      "author_id": 2,
+      "created_at": "2025-02-10T18:56:51.551102",
+      "token": "203011_7ijsro",
+      "materials": []
+    },
+    {
+      "id": "203021_aMb7aa",
+      "author": "weagret122111",
+      "title": "ека1енув1каа",
+      "description": "кецпныошырро",
+      "author_id": 2,
+      "created_at": "2025-02-10T18:57:01.497220",
+      "token": "203021_nmb7T3",
+      "materials": []
+    },
+    {
+      "id": "203030_pmvo9F",
+      "author": "weagret122111",
+      "title": "ека1енув1каа",
+      "description": "кецпныошырро",
+      "author_id": 2,
+      "created_at": "2025-02-10T18:57:10.113373",
+      "token": "203030_vKQFI3",
+      "materials": []
+    }
+  ]
+}

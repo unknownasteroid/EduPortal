@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+<!-- templates/partials/_navbar.html -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary-gradient">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">EduPortal</a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    {% if current_user.is_authenticated %}
+    <div class="collapse navbar-collapse" id="navbarContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <!-- Основные пункты меню -->
+        <li class="nav-item">
+          <a class="nav-link" href="/learn">Обучалка</a>
+        </li>
+
+        <!-- Выпадающее меню "Тренировка" -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+            Тренировка
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/exams">ЕГЭ</a></li>
+            <li><a class="dropdown-item" href="/tasks">Задачи</a></li>
+          </ul>
+        </li>
+
+        <!-- Учительские пункты -->
+        {% if current_user.account_type in ['teacher', 'admin'] %}
+        <li class="nav-item">
+          <a class="nav-link" href="/add-task">Добавить задание</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/add-material">Добавить обучалку</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/groups/create">Создать группу</a>
+        </li>
+        {% endif %}
+        <li class="nav-item">
+            <a class="nav-link" href="/groups/join">Присоединиться к группе</a>
+        </li>
+
+        <!-- Админские пункты -->
+        {% if current_user.account_type == 'admin' %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+            Модерация
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/moderation/tasks">Задания</a></li>
+            <li><a class="dropdown-item" href="/moderation/materials">Обучающие материалы</a></li>
+          </ul>
+        </li>
+        {% endif %}
+
+        <!-- Общие пункты -->
+        <li class="nav-item">
+          <a class="nav-link" href="/forum">Форум</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/groups">Группы</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/forum">Курсы</a>
+        </li>
+      </ul>
+      {% endif %}
+      <!-- Правая часть с авторизацией -->
+      <div class="d-flex align-items-center">
+        {% if current_user.is_authenticated %}
+        <div class="btn-group">
+          <a href="/profile" class="btn btn-outline-light btn-sm">
+            {{ current_user.login }}
+          </a>
+          <a href="/logout" class="btn btn-outline-light btn-sm">
+            Выход
+          </a>
+        </div>
+        {% else %}
+        <div class="btn-group">
+          <a href="/login" class="btn btn-light btn-sm">Вход</a>
+          <a href="/register" class="btn btn-primary btn-sm">Регистрация</a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</nav>
+</body>
+</html>

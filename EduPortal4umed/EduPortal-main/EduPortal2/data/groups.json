@@ -1,0 +1,27 @@
+{
+  "groups": [
+    {
+      "id": "022873_crCO3H",
+      "name": "aboba",
+      "description": "hui",
+      "token": "022873_kCQV2t",
+      "created_by": 1,
+      "members": [
+        1
+      ],
+      "created_at": "2025-02-08T16:54:33.832518",
+      "materials": []
+    },
+    {
+      "id": "201726_wWBT72",
+      "name": "11313",
+      "description": "131313",
+      "token": "201726_bhPRK7",
+      "created_by": 2,
+      "members": [
+        2
+      ],
+      "created_at": "2025-02-10T18:35:26.936273"
+    }
+  ]
+}
