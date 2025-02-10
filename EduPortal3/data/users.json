@@ -1,0 +1,26 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "login": "ghsk",
+      "email": "g@g.g",
+      "password_hash": "scrypt:32768:8:1$Q7gRDfOEIgDJBqhH$a6ef6ef5a468054f5bb7b4e0d9f5231a0cdf14d681a71413ef25d024b4183083cc02f70e9e72678609dc2306ee22da690cedff91c94a0449f983d70c5a67a0cf",
+      "full_name": "1",
+      "school": "1",
+      "birth_date": "0001-11-11",
+      "account_type": "admin",
+      "created_at": "2025-02-08T16:28:37.801375"
+    },
+    {
+      "id": 2,
+      "login": "bp-2024-silnitsky",
+      "email": "9776110159@mail.ru",
+      "password_hash": "scrypt:32768:8:1$YEExio2gIZLzUk9e$930e0a997c93ff77ddd86ed46756cb652a605405675d89bb544cafa61abe11acd1b5a6ad8df72cfd897303227502caaf5b83f518063c21b896fa41f0fd7b7e6a",
+      "full_name": "\u0421\u0438\u043b\u044c\u043d\u0438\u0446\u043a\u0438\u0439 \u0424\u0451\u0434\u043e\u0440",
+      "school": "\u0413\u0411\u041e\u0423 \u041b\u0438\u0446\u0435\u0439 \"\u0412\u0442\u043e\u0440\u0430\u044f \u0448\u043a\u043e\u043b\u0430\" \u0438\u043c\u0435\u043d\u0438 \u0412.\u0424. \u041e\u0432\u0447\u0438\u043d\u043d\u0438\u043a\u043e\u0432\u0430",
+      "birth_date": "2009-02-08",
+      "account_type": "admin",
+      "created_at": "2025-02-10T16:04:03.281136"
+    }
+  ]
+}
