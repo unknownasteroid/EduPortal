@@ -1,6 +1,100 @@
 {% extends "base/layout.html" %}
 {% block title %}Профиль{% endblock %}
 
+{% block js %}
+<script>
+function validateProfileForm() {
+    const loginInput = document.querySelector('input[name="login"]');
+    const emailInput = document.querySelector('input[name="email"]');
+    const birthdateInput = document.querySelector('input[name="birth_date"]');
+    let isValid = true;
+
+    // Валидация логина
+    if (loginInput.value.length < 3 || loginInput.value.length > 20) {
+        loginInput.classList.add('is-invalid');
+        isValid = false;
+    } else {
+        loginInput.classList.remove('is-invalid');
+    }
+
+    // Валидация email
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(emailInput.value)) {
+        emailInput.classList.add('is-invalid');
+        isValid = false;
+    } else {
+        emailInput.classList.remove('is-invalid');
+    }
+
+    // Валидация даты рождения
+    const datePattern = /^\d{4}-\d{2}-\d{2}$/;
+    if (!datePattern.test(birthdateInput.value)) {
+        birthdateInput.classList.add('is-invalid');
+        isValid = false;
+    } else {
+        birthdateInput.classList.remove('is-invalid');
+    }
+
+    return isValid;
+}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const ctx = document.getElementById('taskStatsChart').getContext('2d');
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: Array.from({length: 27}, (_, i) => i + 1),
+            datasets: [{
+                label: 'Процент правильных решений',
+                data: {{ stats|tojson }},
+                backgroundColor: 'rgba(40, 167, 69, 0.5)',
+                borderColor: 'rgba(40, 167, 69, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Номер задания'
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    title: {
+                        display: true,
+                        text: 'Процент правильных решений'
+                    },
+                    ticks: {
+                        callback: function(value) {
+                            return value + '%';
+                        }
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.raw + '% правильных решений';
+                        }
+                    }
+                }
+            }
+        }
+    });
+});</script>
+{% endblock %}
+
 {% block content %}
 <div class="container mt-4">
     <div class="row">
@@ -76,45 +170,20 @@
                 </div>
             </div>
         </div>
+
+        <!-- Добавить после блока с личной информацией -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4">Статистика выполнения заданий</h4>
+                        <canvas id="taskStatsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
-{% block js %}
-<script>
-function validateProfileForm() {
-    const loginInput = document.querySelector('input[name="login"]');
-    const emailInput = document.querySelector('input[name="email"]');
-    const birthdateInput = document.querySelector('input[name="birth_date"]');
-    let isValid = true;
 
-    // Валидация логина
-    if (loginInput.value.length < 3 || loginInput.value.length > 20) {
-        loginInput.classList.add('is-invalid');
-        isValid = false;
-    } else {
-        loginInput.classList.remove('is-invalid');
-    }
-
-    // Валидация email
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(emailInput.value)) {
-        emailInput.classList.add('is-invalid');
-        isValid = false;
-    } else {
-        emailInput.classList.remove('is-invalid');
-    }
-
-    // Валидация даты рождения
-    const datePattern = /^\d{4}-\d{2}-\d{2}$/;
-    if (!datePattern.test(birthdateInput.value)) {
-        birthdateInput.classList.add('is-invalid');
-        isValid = false;
-    } else {
-        birthdateInput.classList.remove('is-invalid');
-    }
-
-    return isValid;
-}
-</script>
-{% endblock %}
 {% endblock %}

@@ -299,3 +299,44 @@ def get_user_by_id(user_id):
     return next((u for u in users if u['id'] == user_id), None)
 
 
+def get_task_stats_by_number(user_id):
+    """Возвращает статистику по номерам заданий в процентах"""
+    tasks = load_tasks()
+    stats = {
+        'total': [0] * 27,  # Общее количество попыток
+        'correct': [0] * 27  # Количество правильных решений
+    }
+
+    for task in tasks:
+        if 'solved_by' in task:
+            for solver in task['solved_by']:
+                if solver['user_id'] == user_id:
+                    idx = task['task_number'] - 1
+                    if 0 <= idx < 27:
+                        stats['total'][idx] += 1
+                        if solver['is_correct']:
+                            stats['correct'][idx] += 1
+
+    # Рассчитываем проценты
+    percentages = []
+    for i in range(27):
+        total = stats['total'][i]
+        correct = stats['correct'][i]
+        if total > 0:
+            percentages.append(round((correct / total) * 100))
+        else:
+            percentages.append(0)
+
+    return percentages
+
+
+def get_task_by_id(id):
+    tasks = load_tasks()
+    i = 0
+    for task in tasks:
+        if task['id'] == id:
+            return i
+        i += 1
+    return -1
+
+

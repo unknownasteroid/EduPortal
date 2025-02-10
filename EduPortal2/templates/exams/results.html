@@ -1,0 +1,42 @@
+{% extends "base/layout.html" %}
+{% block title %}Результаты ЕГЭ{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Результаты выполнения варианта</h1>
+
+    <div class="table-responsive mt-4">
+        <table class="table table-bordered">
+            <thead class="table-light">
+                <tr>
+                    <th>Задание</th>
+                    <th>Ваш ответ</th>
+                    <th>Правильный ответ</th>
+                    <th>Результат</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in results %}
+                <tr>
+                    <td>#{{ result.task_type }}</td>
+                    <td>{{ result.user_answer }}</td>
+                    <td>{{ result.correct_answer }}</td>
+                    <td>
+                        {% if result.is_correct %}
+                        <span class="badge bg-success">Правильно</span>
+                        {% else %}
+                        <span class="badge bg-danger">Неверно</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <h3>Количество верных: {{ correct_answers }}/{{ cnt_answers }}</h3>
+
+    <div class="mt-4">
+        <a href="{{ url_for('exams') }}" class="btn btn-primary">Начать новую тренировку</a>
+    </div>
+</div>
+{% endblock %}

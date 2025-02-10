@@ -2,14 +2,26 @@
   "users": [
     {
       "id": 1,
-      "login": "ghsk",
+      "login": "ghsk2",
       "email": "g@g.g",
       "password_hash": "scrypt:32768:8:1$Q7gRDfOEIgDJBqhH$a6ef6ef5a468054f5bb7b4e0d9f5231a0cdf14d681a71413ef25d024b4183083cc02f70e9e72678609dc2306ee22da690cedff91c94a0449f983d70c5a67a0cf",
       "full_name": "1",
       "school": "1",
       "birth_date": "0001-11-11",
       "account_type": "admin",
-      "created_at": "2025-02-08T16:28:37.801375"
+      "created_at": "2025-02-08T16:28:37.801375",
+      "profile_image": "1_1739195086.jpg"
+    },
+    {
+      "id": 2,
+      "login": "1",
+      "email": "a@a.ru",
+      "password_hash": "scrypt:32768:8:1$ktuLQkkp13XDGHFW$f9a5d81ce57e2303b99b83b531577a5b31139996cc63d7e558f372804c239c7581132d22eccb4b9333ead25c27751eeea155d00748d9764348370ab3696716d4",
+      "full_name": "1",
+      "school": "1",
+      "birth_date": "0011-11-11",
+      "account_type": "student",
+      "created_at": "2025-02-10T17:47:55.441919"
     }
   ]
 }

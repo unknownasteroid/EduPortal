@@ -324,3 +324,56 @@ footer {
     background-color: #f8f9fa;
     border-radius: 5px;
 }
+
+#taskStatsChart {
+    max-height: 500px;
+    width: 100% !important;
+    margin-top: 20px;
+}
+
+.chart-container {
+    position: relative;
+    margin: auto;
+    max-width: 800px;
+}
+
+/* Обновим стили для заданий */
+.task-card {
+    margin-bottom: 1.5rem;
+    padding: 1.5rem;
+    border-radius: 8px;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.task-form {
+    margin-top: 1rem;
+}
+
+.task-form .form-control {
+    max-width: 300px;
+}
+
+.result {
+    margin-top: 1rem;
+}
+
+/* Добавим стили для таблицы результатов */
+.table-results {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+}
+
+.table-results th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+}
+
+.badge {
+    font-size: 0.9em;
+    padding: 0.5em 0.75em;
+}
+
+.btn-lg {
+    padding: 0.75rem 2rem;
+    font-size: 1.1rem;
+}

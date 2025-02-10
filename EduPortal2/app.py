@@ -84,7 +84,76 @@ def learn():
 @app.route('/exams')
 @login_required
 def exams():
-    return render_template('exams/index.html')
+    tasks = load_tasks()
+    tasks = [t for t in tasks if t.get('approved', False)]
+    tasks1 = []
+    for t in tasks:
+        ch = 1
+        if t.get('solved_by'):
+            for x in t.get('solved_by'):
+                if x['user_id'] == current_user.id:
+                    ch = 0
+        if ch:
+            tasks1.append(t)
+    tasks = tasks1
+
+    # Группируем задания по типам и выбираем по одному случайному
+    tasks_by_type = {}
+    for task in tasks:
+        if task['task_number'] not in tasks_by_type:
+            tasks_by_type[task['task_number']] = []
+        tasks_by_type[task['task_number']].append(task)
+
+    exam_tasks = []
+    for task_type, type_tasks in tasks_by_type.items():
+        if type_tasks:
+            exam_tasks.append(random.choice(type_tasks))
+
+    return render_template('exams/exam.html', tasks=exam_tasks)
+
+
+@app.route('/exams/submit', methods=['POST'])
+@login_required
+def submit_exam():
+    tasks = load_tasks()
+    user_answers = request.form.to_dict(flat=False)
+    results = []
+    all_cnt = 0
+    corr_cnt = 0
+    # Обрабатываем ответы для каждого задания
+    for key, value in user_answers.items():
+        if key.startswith('answer#'):
+            task_id = key.split('#')[1]
+            task = next((t for t in tasks if t['id'] == task_id), None)
+            if task:
+                user_answer = value[0].strip().lower()
+                correct_answer = str(task['answer']).strip().lower()
+
+                results.append({
+                    'task_type': task['task_number'],
+                    'user_answer': value[0],
+                    'correct_answer': task['answer'],
+                    'is_correct': user_answer == correct_answer
+                })
+                corr_cnt += (user_answer == correct_answer)
+                num = get_task_by_id(task_id)
+                if 'solved_by' not in tasks[num]:
+                    tasks[num]['solved_by'] = []
+                task['solved_by'] = [s for s in task['solved_by'] if s['user_id'] != current_user.id]
+                tasks[num]['solved_by'].append({
+                    'user_id': current_user.id,
+                    'is_correct': user_answer == correct_answer,
+                    'timestamp': datetime.now().isoformat()
+                })
+
+                save_tasks(tasks)
+                all_cnt += 1
+
+    return render_template('exams/results.html', results=results, correct_answers=corr_cnt, cnt_answers=all_cnt)
+
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 
 @app.route('/tasks')
@@ -431,7 +500,10 @@ def profile():
         except ValueError as e:
             flash(str(e), 'error')
 
-    return render_template('profile.html')
+    stats = get_task_stats_by_number(current_user.id)
+
+    return render_template('profile.html',
+                           stats=stats)
 
 
 # Обновляем маршруты
@@ -441,9 +513,6 @@ def logout():
     return redirect(url_for('index'))
 
 
-@app.route('/')
-def index():
-    return render_template('index.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -845,7 +914,6 @@ def join_group():
 
     # Отображаем все flash-сообщения
     _messages = get_flashed_messages(with_categories=True)
-    print(_messages)
     messages = []
     for s in _messages:
         if s[1] == "Вы успешно присоединились к группе!" or s[1] == "Вы уже состоите в этой группе" or s[1] == "Неверный токен группы":
@@ -969,6 +1037,11 @@ def add_material_to_group(token):
     # Получаем данные из формы
     material_type = request.form.get('material_type')
     material_id = request.form.get('material_id')
+    # "content": "2",
+    # "image": null,
+    # "author_id": 1,
+    # "author_login": "ghsk",
+    # "created_at": "2025-02-08T16:31:23.399668"
 
     # Проверяем существование материала
     if material_type == 'course':
