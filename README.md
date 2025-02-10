@@ -15,7 +15,7 @@ __Инструкция по установке:__
 
 
 __Ссылка на видеоролик:__
-[https://rutube.ru/video/private/674b359f4c8f9d8c5960d19b57da7d20/?p=7o9XumlK-nHOgwzLt7Y_cg](https://rutube.ru/video/private/52e4ba19dbc6d78eb2b40e52fe7e458a/?p=fzl_QV6Za8Iy5Qtf2iRpkQ)
+https://rutube.ru/video/private/52e4ba19dbc6d78eb2b40e52fe7e458a/?p=fzl_QV6Za8Iy5Qtf2iRpkQ
 
 
 __Цель проекта__: Создать удобную и персонализированную платформу для подготовки к экзаменам, объединяющую учебные материалы, интерактивные задания и возможности коммуникации.
