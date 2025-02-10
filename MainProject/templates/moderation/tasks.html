@@ -1,0 +1,44 @@
+{% extends "base/layout.html" %}
+{% block title %}Модерация заданий{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Модерация заданий</h1>
+    <p class="lead">Непроверенные задания:</p>
+
+    {% if tasks %}
+        <div class="list-group">
+            {% for task in tasks %}
+                <div class="list-group-item">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h5>Задание №{{ task.task_number }}</h5>
+                            <div class="mb-2">
+                                <span class="badge bg-info">{{ task.difficulty }}</span>
+                            </div>
+                            <p>{{ task.question }}</p>
+                            <div class="text-muted small">
+                                <p>Ответ: {{ task.answer }}</p>
+                                {% if task.source %}<p>Источник: {{ task.source }}</p>{% endif %}
+                                {% if task.explanation %}<p>Разбор: {{ task.explanation }}</p>{% endif %}
+                            </div>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <form action="{{ url_for('approve_task', task_id=task.id) }}" method="POST">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                <button type="submit" class="btn btn-success btn-sm">Одобрить</button>
+                            </form>
+                            <form action="{{ url_for('reject_task', task_id=task.id) }}" method="POST">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                <button type="submit" class="btn btn-danger btn-sm">Запретить</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">Нет заданий для модерации.</div>
+    {% endif %}
+</div>
+{% endblock %}

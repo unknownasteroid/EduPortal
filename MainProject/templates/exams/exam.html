@@ -1,0 +1,39 @@
+{% extends "base/layout.html" %}
+{% block title %}Решить вариант ЕГЭ{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Решить вариант ЕГЭ</h1>
+
+    {% if not tasks %}
+    <div class="alert alert-info mt-4">Нет доступных заданий для решения</div>
+    {% else %}
+    <form id="examForm" method="POST" action="{{ url_for('submit_exam') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+
+        <div class="row">
+            {% for task in tasks %}
+            <div class="col-12 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Задание {{ task.task_number }}</h5>
+                        <p class="card-text">{{ task.question }}</p>
+
+                        <div class="mb-3">
+                            <label for="answer#{{ task.id }}" class="form-label">Ваш ответ:</label>
+                            <input type="text" class="form-control" id="answer#{{ task.id }}"
+                                name="answer#{{ task.id }}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-primary btn-lg">Отправить все ответы</button>
+        </div>
+    </form>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,445 @@
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --gradient-start: #2980b9;
+    --gradient-end: #2c3e50;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f8f9fa;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+footer {
+    flex-shrink: 0;
+    margin-top: auto;
+}
+
+/* static/css/styles.css (обновляем стили навбара) */
+
+.navbar {
+  min-height: 60px; /* Уменьшаем высоту */
+  padding: 0.5rem 1rem; /* Уменьшаем отступы */
+}
+
+.navbar-brand {
+  font-size: 1.25rem; /* Уменьшаем размер логотипа */
+  padding: 0.25rem 0;
+}
+
+.navbar-nav .nav-link {
+  font-size: 0.9rem; /* Размер шрифта пунктов меню */
+  padding: 0.5rem 0.75rem !important; /* Компактные отступы */
+  white-space: nowrap; /* Запрещаем перенос текста */
+}
+
+.navbar-toggler {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.9rem;
+}
+
+/* Делаем выпадающее меню компактнее */
+.dropdown-menu {
+  min-width: 200px;
+  padding: 0.5rem;
+}
+
+.dropdown-item {
+  font-size: 0.9rem;
+  padding: 0.25rem 1rem;
+}
+
+/* Оптимизация для мобильных устройств */
+@media (max-width: 992px) {
+  .navbar-collapse {
+    padding-top: 0.5rem;
+  }
+
+  .navbar-nav .nav-link {
+    padding: 0.5rem 1rem !important;
+  }
+
+  .dropdown-menu {
+    margin-left: 1rem;
+    width: calc(100% - 2rem);
+  }
+}
+
+/* Уменьшаем кнопки в навбаре */
+.navbar .btn {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.9rem;
+  margin-left: 0.5rem;
+}
+
+
+.bg-primary-gradient {
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+}
+
+.hero-section {
+    padding: 100px 0;
+    background: linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.9)),
+                url('../images/hero-bg.jpg') center/cover;
+    color: white;
+}
+
+.feature-card {
+    transition: transform 0.3s;
+    border: none;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+}
+
+.btn-custom {
+    background: var(--secondary-color);
+    color: white;
+    padding: 12px 30px;
+    border-radius: 30px;
+    font-weight: 500;
+}
+.auth-form-container {
+    min-height: calc(100vh - 200px); /* 200px - примерная высота навбара + футера */
+}
+
+.wrapper {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -142px; /* the bottom margin is the negative value of the footer's height */
+}
+.footer, .push {
+    height: 142px; /* .push must be the same height as .footer */
+}
+
+/* Форум */
+#messagesList .card {
+    transition: transform 0.2s;
+}
+
+#messagesList .card:hover {
+    transform: translateY(-2px);
+}
+
+.like-btn, .dislike-btn {
+    min-width: 80px;
+}
+
+.delete-btn {
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.card:hover .delete-btn {
+    opacity: 1;
+}
+
+/* Градиент для навбара */
+.navbar.bg-primary-gradient {
+    background: linear-gradient(135deg, #2980b9, #2c3e50) !important;
+}
+
+/* Цвет текста в навбаре */
+.navbar-dark .navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: rgba(255, 255, 255, 1) !important;
+}
+
+/* Кнопки в навбаре */
+.navbar-dark .btn-outline-light {
+    border-color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.navbar-dark .btn-outline-light:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.8);
+}
+
+/* Стили для тостов */
+.forum-toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 15px 25px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 500;
+  z-index: 1000;
+  animation: slideIn 0.3s ease-out;
+}
+
+.forum-toast-success {
+  background: #28a745;
+}
+
+.forum-toast-error {
+  background: #dc3545;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+/* Стили для навбара */
+.main-navbar {
+  transition: background 0.3s ease;
+  padding: 1rem 2rem;
+}
+
+/* Стили для сообщений */
+.forum-message {
+  margin-bottom: 1.5rem;
+  padding: 1.5rem;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.like-btn.active {
+    background: #28a745 !important;
+    color: white !important;
+}
+
+.dislike-btn.active {
+    background: #dc3545 !important;
+    color: white !important;
+}
+
+/* Стили для кнопок реакций */
+.btn-outline-success.liked {
+    background-color: #28a745 !important;
+    color: white !important;
+    border-color: #28a745 !important;
+}
+
+.btn-outline-danger.disliked {
+    background-color: #dc3545 !important;
+    color: white !important;
+    border-color: #dc3545 !important;
+}
+
+/* Ховер-эффекты */
+.btn-outline-success:hover {
+    background-color: #218838 !important;
+    color: white !important;
+}
+
+.btn-outline-danger:hover {
+    background-color: #c82333 !important;
+    color: white !important;
+}
+
+.liked {
+    background-color: #28a745 !important;
+    color: white !important;
+    border-color: #28a745 !important;
+}
+
+.disliked {
+    background-color: #dc3545 !important;
+    color: white !important;
+    border-color: #dc3545 !important;
+}
+
+/* Стили для решенных задач */
+.task-item.solved.correct {
+    background-color: #e8f5e9;
+    border-left: 4px solid #28a745;
+}
+
+.task-item.solved.incorrect {
+    background-color: #ffebee;
+    border-left: 4px solid #dc3545;
+}
+
+/* Анимация изменения состояния */
+.task-item {
+    transition: all 0.3s ease;
+}
+
+/* Стили для сообщений */
+.alert {
+    margin-bottom: 1rem;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.25rem;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
+
+/* Стили для кнопок показа ответа/объяснения */
+.btn-show-answer,
+.btn-show-explanation {
+    background: none;
+    border: none;
+    color: #0d6efd;
+    padding: 0;
+    cursor: pointer;
+    text-decoration: underline dotted;
+    transition: color 0.2s;
+}
+
+.btn-show-answer:hover,
+.btn-show-explanation:hover {
+    color: #0a58ca;
+    text-decoration: underline;
+}
+
+.correct-answer {
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+/* Стиль для блока с объяснением */
+.explanation .card-body {
+    background-color: #f8f9fa;
+    border-radius: 5px;
+}
+
+#taskStatsChart {
+    max-height: 500px;
+    width: 100% !important;
+    margin-top: 20px;
+}
+
+.chart-container {
+    position: relative;
+    margin: auto;
+    max-width: 800px;
+}
+
+/* Обновим стили для заданий */
+.task-card {
+    margin-bottom: 1.5rem;
+    padding: 1.5rem;
+    border-radius: 8px;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.task-form {
+    margin-top: 1rem;
+}
+
+.task-form .form-control {
+    max-width: 300px;
+}
+
+.result {
+    margin-top: 1rem;
+}
+
+/* Добавим стили для таблицы результатов */
+.table-results {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+}
+
+.table-results th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+}
+
+.badge {
+    font-size: 0.9em;
+    padding: 0.5em 0.75em;
+}
+
+.btn-lg {
+    padding: 0.75rem 2rem;
+    font-size: 1.1rem;
+}
+
+/* Стили для материалов группы */
+.material-item {
+    transition: all 0.2s ease;
+    border-left: 4px solid transparent;
+}
+
+.material-item:hover {
+    background-color: #f8f9fa;
+    border-left-color: #0d6efd;
+}
+
+.material-item h5 {
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+}
+
+.material-item {
+    transition: all 0.2s ease;
+    border-left: 4px solid transparent;
+    padding: 1rem;
+}
+
+.material-item:hover {
+    background-color: #f8f9fa;
+    border-left-color: #0d6efd;
+}
+
+.task-content {
+    background-color: #fff;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid #dee2e6;
+}
+
+.material-content img {
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+    border-radius: 0.5rem;
+}
+
+.bi {
+    margin-right: 0.5rem;
+    font-size: 1.2em;
+}
+
+/* Стили карточек материалов */
+.material-card {
+    transition: transform 0.2s;
+    border-radius: 0.5rem;
+}
+
+.material-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+}
+
+.material-card img {
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: 0.25rem;
+}
+
+.material-card .card-footer {
+    background-color: rgba(0,0,0,0.03);
+    border-top: 1px solid rgba(0,0,0,0.125);
+}

@@ -1,0 +1,35 @@
+{% extends "base/layout.html" %}
+{% block title %}Мои группы{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Мои группы</h1>
+
+    {% if not groups %}
+    <div class="alert alert-info mt-4">Вы пока не состоите ни в одной группе</div>
+    {% else %}
+    <div class="row row-cols-1 row-cols-md-2 g-4 mt-3">
+        {% for group in groups %}
+        <div class="col">
+          <a href="{{ url_for('group_detail', token=group.token) }}"
+             class="text-decoration-none card-clickable">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h3 class="card-title">{{ group.name }}</h3>
+                        <p class="card-text">{{ group.description }}</p>
+                        <div class="mt-auto">
+                            <small class="text-muted">
+                                Создатель: {{ group.creator.login }}
+                                <br>
+                                Дата создания: {{ group.created_at|format_date }}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,189 @@
+{% extends "base/layout.html" %}
+{% block title %}Профиль{% endblock %}
+
+{% block js %}
+<script>
+function validateProfileForm() {
+    const loginInput = document.querySelector('input[name="login"]');
+    const emailInput = document.querySelector('input[name="email"]');
+    const birthdateInput = document.querySelector('input[name="birth_date"]');
+    let isValid = true;
+
+    // Валидация логина
+    if (loginInput.value.length < 3 || loginInput.value.length > 20) {
+        loginInput.classList.add('is-invalid');
+        isValid = false;
+    } else {
+        loginInput.classList.remove('is-invalid');
+    }
+
+    // Валидация email
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(emailInput.value)) {
+        emailInput.classList.add('is-invalid');
+        isValid = false;
+    } else {
+        emailInput.classList.remove('is-invalid');
+    }
+
+    // Валидация даты рождения
+    const datePattern = /^\d{4}-\d{2}-\d{2}$/;
+    if (!datePattern.test(birthdateInput.value)) {
+        birthdateInput.classList.add('is-invalid');
+        isValid = false;
+    } else {
+        birthdateInput.classList.remove('is-invalid');
+    }
+
+    return isValid;
+}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const ctx = document.getElementById('taskStatsChart').getContext('2d');
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: Array.from({length: 27}, (_, i) => i + 1),
+            datasets: [{
+                label: 'Процент правильных решений',
+                data: {{ stats|tojson }},
+                backgroundColor: 'rgba(40, 167, 69, 0.5)',
+                borderColor: 'rgba(40, 167, 69, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Номер задания'
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    title: {
+                        display: true,
+                        text: 'Процент правильных решений'
+                    },
+                    ticks: {
+                        callback: function(value) {
+                            return value + '%';
+                        }
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.raw + '% правильных решений';
+                        }
+                    }
+                }
+            }
+        }
+    });
+});</script>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <!-- Блок с аватаркой -->
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body text-center">
+                    <img src="{{ url_for('static', filename='uploads/' + current_user.profile_image) if current_user.profile_image else url_for('static', filename='images/hero-bg.png') }}"
+                         class="img-fluid rounded-circle mb-3"
+                         style="width: 200px; height: 200px; object-fit: cover;">
+
+                    <!-- Форма для загрузки аватарки -->
+                    <form method="POST" action="/upload-avatar" enctype="multipart/form-data">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <div class="mb-3">
+                            <input type="file" class="form-control" name="avatar" accept="image/*">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Обновить фото</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Блок с личной информацией -->
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Личная информация</h3>
+                    <form method="POST" onsubmit="return validateProfileForm()">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                        <div class="mb-3">
+                            <label class="form-label">Логин</label>
+                            <input type="text" class="form-control" name="login"
+                                   value="{{ current_user.login }}" required>
+                            <div class="invalid-feedback" id="login-feedback">
+                                Логин должен быть от 3 до 20 символов
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" name="email"
+                                   value="{{ current_user.email }}" required>
+                            <div class="invalid-feedback" id="email-feedback">
+                                Введите корректный email
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Полное имя</label>
+                            <input type="text" class="form-control" name="full_name"
+                                   value="{{ current_user.full_name }}" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Школа</label>
+                            <input type="text" class="form-control" name="school"
+                                   value="{{ current_user.school }}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Дата рождения</label>
+                            <input type="date" class="form-control" name="birth_date"
+                                   value="{{ current_user.birth_date }}" required>
+                            <div class="invalid-feedback" id="birthdate-feedback">
+                                Дата рождения должна быть в формате ГГГГ-ММ-ДД
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Добавить после блока с личной информацией -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4">Статистика выполнения заданий</h4>
+                        <canvas id="taskStatsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

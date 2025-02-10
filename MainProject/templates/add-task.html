@@ -1,0 +1,54 @@
+{% extends "base/layout.html" %}
+{% block title %}Добавить задание{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Добавить новое задание</h1>
+    <form method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+
+        <div class="mb-3">
+            <label for="task_number" class="form-label">Номер задания</label>
+            <input type="number" class="form-control" id="task_number" name="task_number"
+                   min="1" max="27" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="question" class="form-label">Условие задания</label>
+            <textarea class="form-control" id="question" name="question"
+                     rows="3" required></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="source" class="form-label">Источник</label>
+            <input type="text" class="form-control" id="source" name="source">
+        </div>
+
+        <div class="mb-3">
+            <label for="answer" class="form-label">Правильный ответ</label>
+            <input type="text" class="form-control" id="answer" name="answer" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="explanation" class="form-label">Разбор задания</label>
+            <textarea class="form-control" id="explanation" name="explanation"
+                     rows="4"></textarea>
+        </div>
+
+        <!-- После поля "Разбор задания" добавим новое поле -->
+        <div class="mb-3">
+            <label for="difficulty" class="form-label">Сложность</label>
+            <select class="form-select" id="difficulty" name="difficulty" required>
+                <option value="Проще ЕГЭ">Проще ЕГЭ</option>
+                <option value="Просто">Просто</option>
+                <option value="Средне">Средне</option>
+                <option value="Сложно">Сложно</option>
+                <option value="Сложнее ЕГЭ">Сложнее ЕГЭ</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Добавить задание</button>
+        <a href="{{ url_for('index') }}" class="btn btn-secondary">Назад</a>
+    </form>
+</div>
+{% endblock %}
