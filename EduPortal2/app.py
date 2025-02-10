@@ -161,6 +161,8 @@ def index():
 def tasks():
     tasks = load_tasks()
     approved_tasks = [t for t in tasks if t.get('approved', False)]
+    for task in approved_tasks:
+        task['author_login'] = get_user_by_id(task['author_id'])['login']
 
     # Получаем выбранные номера
     selected_tasks = [int(i) for i in list(request.args.getlist('task_numbers'))]
@@ -178,6 +180,7 @@ def tasks():
 
     # Загрузка решенных заданий
     solved_tasks = get_solved_tasks(current_user.id)
+    # print(solved_tasks)
 
     return render_template('tasks/index.html',
                            tasks=approved_tasks,
@@ -283,28 +286,27 @@ def check_answer():
     if not task:
         return jsonify({'error': 'Задание не найдено'}), 404
 
+    existing_solution = next(
+        (s for s in task.get('solved_by', []) if s['user_id'] == current_user.id),
+        None
+    )
+
     is_correct = (user_answer.lower() == task['answer'].lower())
 
-    # Обновляем статус решения
-    if 'solved_by' not in task:
-        task['solved_by'] = []
-
-    # Удаляем старый результат, если он есть
-    task['solved_by'] = [s for s in task['solved_by'] if s['user_id'] != current_user.id]
-
-    # Добавляем новый результат
-    task['solved_by'].append({
+    task.setdefault('solved_by', []).append({
         'user_id': current_user.id,
         'is_correct': is_correct,
         'timestamp': datetime.now().isoformat()
     })
 
-    save_tasks(tasks)
+    if not existing_solution:
+        save_tasks(tasks)
 
     return jsonify({
         'is_correct': is_correct,
         'correct_answer': task['answer'],
-        'explanation': task.get('explanation', '')
+        'explanation': task.get('explanation', ''),
+        'already_solved': False
     })
 
 
@@ -322,8 +324,7 @@ def edit_task(task_id):
         return redirect(url_for('tasks'))
 
     # Проверка прав
-    if not task or (current_user.id != task['author_id']
-                    and current_user.account_type != 'admin'):
+    if not task or (current_user.id != task['author_id'] and current_user.account_type != 'admin'):
         abort()
 
     if request.method == 'POST':
@@ -336,6 +337,7 @@ def edit_task(task_id):
             task['explanation'] = request.form.get('explanation', '').strip()
             task['difficulty'] = request.form.get('difficulty')
             task['approved'] = False
+            task['solved_by'].clear()
 
             # Валидация
             if not (1 <= task['task_number'] <= 27):

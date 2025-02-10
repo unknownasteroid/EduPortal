@@ -13,6 +13,11 @@
         min-width: 60px;
         margin-left: 30px;
     }
+    .answer-section .card-body {
+        background-color: #f8f9fa;
+        border-radius: 5px;
+        margin-top: 10px;
+    }
 </style>
 {% endblock %}
 
@@ -113,34 +118,38 @@
                             </form>
 
                             <div class="solution-section">
-                                <div class="alert alert-success correct-alert" style="display:none;">
-                                    ✓ Правильно!
-                                </div>
-                                <div class="alert alert-danger incorrect-alert" style="display:none;">
-                                    ✗ Неправильно. Правильный ответ:
-                                    <span class="correct-answer"></span>
-                                </div>
-
-                                {% if task.source %}
-                                    <p class="text-muted small">Источник: {{ task.source }}</p>
-                                {% endif %}
-
-                                {% if task.explanation %}
-                                    <div class="mt-3 explanation">
-                                        <button class="btn btn-link btn-sm"
-                                                type="button"
-                                                data-bs-toggle="collapse"
-                                                data-bs-target="#explanation-{{ task.id }}">
-                                            Показать разбор
-                                        </button>
-                                        <div class="collapse" id="explanation-{{ task.id }}">
-                                            <div class="card card-body">
-                                                {{ task.explanation }}
-                                            </div>
-                                        </div>
+                            <!-- Блок с ответом -->
+                            <div class="mt-3 answer-section">
+                                <button class="btn btn-link btn-sm"
+                                        type="button"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target="#answer-{{ task.id }}">
+                                    Показать ответ
+                                </button>
+                                <div class="collapse" id="answer-{{ task.id }}">
+                                    <div class="card card-body">
+                                        {{ task.answer }}
                                     </div>
-                                {% endif %}
+                                </div>
                             </div>
+
+                            <!-- Блок с объяснением (оставляем как было) -->
+                            {% if task.explanation %}
+                            <div class="mt-3 explanation">
+                                <button class="btn btn-link btn-sm"
+                                        type="button"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target="#explanation-{{ task.id }}">
+                                    Показать разбор
+                                </button>
+                                <div class="collapse" id="explanation-{{ task.id }}">
+                                    <div class="card card-body">
+                                        {{ task.explanation }}
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
                         </div>
                         {% if current_user.id == task.author_id or current_user.account_type == 'admin' %}
                         <div class="ms-3">
@@ -152,6 +161,9 @@
                         </div>
                         {% endif %}
                     </div>
+                    <small class="text-muted">
+                        Добавлено: {{ task.created_at | format_date }} | Автор: {{ task.author_login }}
+                    </small>
                 </div>
             {% endfor %}
         </div>
@@ -193,15 +205,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Удаляем предыдущие сообщения
                 taskElement.querySelectorAll('.alert').forEach(alert => alert.remove());
 
-                // Создаем новое сообщение
-                const alertDiv = document.createElement('div');
-                alertDiv.classList.add('alert', result.is_correct ? 'alert-success' : 'alert-danger');
-                alertDiv.textContent = result.is_correct ?
-                    '✓ Правильно!' :
-                    `✗ Неправильно. Правильный ответ: ${result.correct_answer}`;
-
-                // Вставляем сообщение перед формой
-                form.parentNode.insertBefore(alertDiv, form);
+                // Если задание уже решено ранее
+                // if (result.already_solved) {
+                //     const alertDiv = document.createElement('div');
+                //     alertDiv.classList.add('alert', 'alert-warning');
+                //     alertDiv.textContent = 'Задание уже решено ранее!';
+                //     form.parentNode.insertBefore(alertDiv, form);
+                //     return;
+                // }
 
                 // Обновляем статус задачи
                 taskElement.classList.remove('solved', 'correct', 'incorrect');

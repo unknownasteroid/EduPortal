@@ -241,6 +241,7 @@ def get_solved_tasks(user_id):
     solved_tasks = {}
     for task in tasks:
         if 'solved_by' in task:
+            # print(task['id'], '\n', task['solved_by'])
             for solver in task['solved_by']:
                 if solver['user_id'] == user_id:
                     solved_tasks[task['id']] = solver['is_correct']

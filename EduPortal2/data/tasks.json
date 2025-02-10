@@ -3,7 +3,7 @@
     {
       "id": "021792_VSIjNX",
       "task_number": 1,
-      "question": "GHSK",
+      "question": "GHSK228_52444",
       "answer": "1",
       "source": "1",
       "explanation": "1",
@@ -12,12 +12,12 @@
       "created_at": "2025-02-08T16:36:32.318696",
       "approved": true,
       "approved_by": 1,
-      "approved_at": "2025-02-10T18:45:54.217352",
+      "approved_at": "2025-02-10T19:09:08.498126",
       "solved_by": [
         {
           "user_id": 1,
           "is_correct": true,
-          "timestamp": "2025-02-10T18:45:23.008135"
+          "timestamp": "2025-02-10T19:13:01.467050"
         }
       ]
     },
@@ -81,27 +81,6 @@
           "user_id": 1,
           "is_correct": false,
           "timestamp": "2025-02-10T18:19:42.571957"
-        }
-      ]
-    },
-    {
-      "id": "021792_VSIjNX",
-      "task_number": 1,
-      "question": "1",
-      "answer": "1",
-      "source": "1",
-      "explanation": "1",
-      "difficulty": "Проще ЕГЭ",
-      "author_id": 1,
-      "created_at": "2025-02-08T16:36:32.318696",
-      "approved": true,
-      "approved_by": 1,
-      "approved_at": "2025-02-08T16:36:37.114591",
-      "solved_by": [
-        {
-          "user_id": 1,
-          "is_correct": false,
-          "timestamp": "2025-02-10T18:04:23.181542"
         }
       ]
     },
